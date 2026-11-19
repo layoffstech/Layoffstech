@@ -53,22 +53,34 @@ $("#hdr").innerHTML = `
   </div></div>
 </header>`;
 
+const wordHTML = (word, offset) => `<span class="w">${[...word].map((ch, i) => `<span class="l" style="--i:${offset + i}">${ch}</span>`).join("")}</span>`;
+const mq = CATEGORIES.map((c) => `<a href="${catUrl(c)}">${esc(c.name)}</a>`).join("");
 $("#ftr").innerHTML = `
-<section class="cta-band"><div class="wrap">
-  <h2>Never miss a story.</h2>
-  <p>Get the best of Mamta Media in your inbox. No spam, ever.</p>
-  <a class="btn light" href="/index.html#subscribe">Subscribe now</a>
-</div></section>
-<footer class="site"><div class="wrap grid">
-  <div><a class="logo" href="/index.html"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
-    <p>Fresh stories on technology, business, entertainment, lifestyle, health, sports, education and travel.</p></div>
-  <div><h4>Categories</h4><ul>${CATEGORIES.map((c) => `<li><a href="${catUrl(c)}">${esc(c.name)}</a></li>`).join("")}</ul></div>
-  <div><h4>Explore</h4><ul>
-    <li><a href="/index.html#latest">Latest posts</a></li><li><a href="/index.html#trending">Trending</a></li>
-    <li><a href="/index.html#stories">All stories</a></li><li><a href="/about.html">About us</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
-  <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy Policy</a></li><li><a href="/disclaimer.html">Disclaimer</a></li></ul></div>
-</div>
-<div class="wrap legal">© 2026 Mamta Media. All rights reserved.</div></footer>`;
+<footer class="site">
+  <div class="f-marquee" aria-label="Categories"><div class="track">${mq}${mq}${mq}${mq}</div></div>
+  <div class="wrap f-top">
+    <div><h2>Never miss a <em>story.</em></h2><p>Get the best of Mamta Media in your inbox. No spam, ever.</p></div>
+    <a class="btn light" href="/index.html#subscribe">Subscribe now</a>
+  </div>
+  <div class="wrap grid">
+    <div><a class="logo" href="/index.html"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
+      <p>Fresh stories on technology, business, entertainment, lifestyle, health, sports, education and travel.</p></div>
+    <div><h4>Categories</h4><ul>${CATEGORIES.map((c) => `<li><a href="${catUrl(c)}">${esc(c.name)}</a></li>`).join("")}</ul></div>
+    <div><h4>Explore</h4><ul>
+      <li><a href="/index.html#latest">Latest posts</a></li><li><a href="/index.html#trending">Trending</a></li>
+      <li><a href="/index.html#stories">All stories</a></li><li><a href="/about.html">About us</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+    <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy Policy</a></li><li><a href="/disclaimer.html">Disclaimer</a></li></ul></div>
+  </div>
+  <div class="wrap f-word" id="fWord" aria-hidden="true">${wordHTML("Mamta", 0)}${wordHTML("Media", 7)}</div>
+  <div class="wrap legal"><span>© 2026 Mamta Media. All rights reserved.</span><a class="totop" href="#hdr">Back to top ↑</a></div>
+</footer>`;
+
+// Footer wordmark: letters rise from below, one after another, every time it scrolls into view
+const fWord = $("#fWord");
+if (fWord) {
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) fWord.classList.add("in");
+  else new IntersectionObserver((entries) => entries.forEach((en) => fWord.classList.toggle("in", en.isIntersecting)), { threshold: 0.45 }).observe(fWord);
+}
 
 document.addEventListener("click", (e) => {
   if (e.target.closest("#themeBtn")) {
