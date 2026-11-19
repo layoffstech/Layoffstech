@@ -3,26 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Layoffstech | Tech layoffs news aur updates</title>
-<meta name="description" content="Tech companies mein ho rahi layoffs ki latest news aur updates.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<title>Mamta Media | Tech layoffs news aur updates</title>
+<meta name="description" content="Tech companies mein ho rahi layoffs ki latest news, numbers aur updates. Har khabar source ke saath.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-<header class="site"><div class="wrap"><a class="logo" href="index.html">Layoffs<span>tech</span></a><nav><a href="index.html">News</a><a href="about.html">About</a><button id="themeBtn" type="button">Dark / Light</button></nav></div></header>
-<main class="wrap">
-  <section class="hero">
-    <h1>Tech layoffs, ek jagah.</h1>
-    <p class="tally" id="totalCount">0</p>
-    <p class="tally-label">jobs cut, is site pe track ki gayi saari news ko jodke</p>
-  </section>
-  <div class="tools">
-    <input id="search" type="search" placeholder="Company ya keyword search karo" aria-label="Search posts">
-    <div id="filters"></div>
+<body data-page="home">
+<div id="hdr"></div>
+<main>
+<section class="hero"><div class="wrap">
+  <h1>Tech layoffs, <em>tracked</em> so you don’t have to.</h1>
+  <p class="sub">Kaun si company, kitne log, kaun si teams. Har khabar source ke saath, ek hi jagah.</p>
+  <div class="btns"><a class="btn light" href="#latest">Latest news padho →</a><a class="btn ghost" href="#alerts">Get alerts</a></div>
+  <div class="stats">
+    <div><b id="statJobs">0</b><span>jobs cut, tracked here</span></div>
+    <div><b id="statStories">0</b><span>stories published</span></div>
+    <div><b id="statCompanies">0</b><span>companies covered</span></div>
+  </div></div>
+  <div class="ticker" id="ticker" aria-label="Latest layoffs"></div>
+</section>
+
+<section id="latest"><div class="wrap">
+  <div class="sec-head"><h2>Latest <em>layoffs</em> news.</h2><p>Sabse naye updates, sabse upar.</p></div>
+  <div id="latest-grid"></div>
+</div></section>
+
+<section id="categories" class="alt"><div class="wrap">
+  <div class="sec-head"><h2>Every corner of tech, <em>under one roof.</em></h2><p>Apne interest ki category chuno.</p></div>
+  <div id="cat-grid"></div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="sec-head"><h2>We <em>verify.</em> We <em>source.</em> We <em>update.</em></h2><p>Hum kaise report karte hain.</p></div>
+  <div class="steps">
+    <div class="step"><h3>Verify</h3><p>Har number company announcement, filing ya reliable report se cross-check hota hai.</p></div>
+    <div class="step"><h3>Source</h3><p>Har post ke neeche source ka link. Tum khud check kar sakte ho.</p></div>
+    <div class="step"><h3>Update</h3><p>Naya data aate hi post update hoti hai, aur galti mile toh correction publish hota hai.</p></div>
   </div>
-  <ul id="postList"></ul>
+</div></section>
+
+<section id="tracker" class="alt"><div class="wrap">
+  <div class="sec-head"><h2>Layoff <em>tracker.</em></h2><p>Is site par track ki gayi companies, jobs cut ke hisaab se.</p></div>
+  <ul id="bars"></ul>
+</div></section>
+
+<section id="faqs"><div class="wrap prose">
+  <div class="sec-head"><h2>Questions <em>before you ask?</em></h2></div>
+  <details><summary>Ye numbers kahan se aate hain?</summary><p>Company ke official announcements, regulatory filings aur bharosemand news reports se. Har post mein source link diya hota hai.</p></details>
+  <details><summary>Kya aap job ya legal advice dete ho?</summary><p>Nahi. Ye site sirf news aur jaankari ke liye hai. Details ke liye Disclaimer page padho.</p></details>
+  <details><summary>Koi galti mile toh kya karein?</summary><p>Contact page se humein batao. Hum jaanch karke post ko theek karte hain.</p></details>
+  <details><summary>Mujhe news tip bhejni hai.</summary><p>Contact page pe "News tip" chuno. Hum source ki privacy ka dhyan rakhte hain.</p></details>
+</div></section>
+
+<section id="alerts"><div class="wrap">
+  <div class="alert-box">
+    <h2>Get layoff <em>alerts</em> in your inbox.</h2>
+    <p>Naye layoffs ki news seedha email par. Kabhi bhi unsubscribe karo.</p>
+    <form name="alerts" method="POST" action="thanks.html" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="alerts">
+      <p hidden><label>Don’t fill this: <input name="bot-field"></label></p>
+      <input type="email" name="email" placeholder="Aapka email" aria-label="Email" required>
+      <button class="btn light" type="submit">Get alerts →</button>
+    </form>
+  </div>
+</div></section>
 </main>
-<footer class="site"><div class="wrap">© 2026 Layoffstech. Tech layoffs ki news aur updates.</div></footer>
+<div id="ftr"></div>
 <script src="js/posts.js"></script>
 <script src="js/main.js"></script>
 </body>
