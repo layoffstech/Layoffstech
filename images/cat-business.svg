@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="1600" height="1000" role="img">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f6bff"/><stop offset="1" stop-color="#0a2a7a"/></linearGradient>
+<pattern id="d" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#fff" opacity=".16"/></pattern></defs>
+<rect width="800" height="500" fill="url(#g)"/><rect width="800" height="500" fill="url(#d)"/>
+<circle cx="660" cy="80" r="170" fill="#fff" opacity=".07"/><circle cx="110" cy="460" r="200" fill="#fff" opacity=".06"/>
+<rect x="150" y="392" width="520" height="8" rx="4" fill="#cfe0ff" opacity=".6"/><rect x="200" y="320" width="52" height="70" rx="10" fill="#ffffff"/><rect x="280" y="275" width="52" height="115" rx="10" fill="#cfe0ff"/><rect x="360" y="225" width="52" height="165" rx="10" fill="#ffffff"/><rect x="440" y="175" width="52" height="215" rx="10" fill="#cfe0ff"/><rect x="520" y="125" width="52" height="265" rx="10" fill="#7fe0ff"/>
+<polyline points="226,300 306,255 386,205 466,155 546,105" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 14"/>
+<g transform="translate(600 105)"><circle r="46" fill="#ffffff"/><circle r="34" fill="none" stroke="#1456e8" stroke-width="5"/><text y="14" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="42" fill="#1456e8">$</text></g>
+<path d="M610 200v-38m0 0l-14 16m14-16l14 16" stroke="#7fe0ff" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 40)"/>
+</svg>

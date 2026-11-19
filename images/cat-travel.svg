@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="1600" height="1000" role="img">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f6bff"/><stop offset="1" stop-color="#0a2a7a"/></linearGradient>
+<pattern id="d" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#fff" opacity=".16"/></pattern></defs>
+<rect width="800" height="500" fill="url(#g)"/><rect width="800" height="500" fill="url(#d)"/>
+<circle cx="660" cy="80" r="170" fill="#fff" opacity=".07"/><circle cx="110" cy="460" r="200" fill="#fff" opacity=".06"/>
+<circle cx="610" cy="130" r="46" fill="#ffffff" opacity=".92"/><path d="M60 410l190-190 180 190z" fill="#cfe0ff"/><path d="M270 410l200-232 230 232z" fill="#ffffff"/>
+<path d="M470 178l-34 40 24-12 20 16 18-14 22 12z" fill="#cfe0ff"/><path d="M250 220l-26 30 20-8 14 10 14-8z" fill="#ffffff"/><rect x="0" y="410" width="800" height="90" fill="#0a1c52" opacity=".55"/>
+<polygon points="130,150 372,74 296,210 262,164" fill="#ffffff"/><polygon points="262,164 372,74 250,186" fill="#cfe0ff"/>
+<path d="M120 238c70 40 150 20 190-20" fill="none" stroke="#7fe0ff" stroke-width="5" stroke-dasharray="3 14" stroke-linecap="round"/>
+<g transform="translate(580 270)"><path d="M0 70C-32 32-40 8-40-10a40 40 0 0 1 80 0c0 18-8 42-40 80z" fill="#7fe0ff"/><circle cy="-10" r="15" fill="#ffffff"/></g>
+</svg>

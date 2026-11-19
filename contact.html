@@ -3,29 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact | Mamta Media</title>
-<meta name="description" content="Contact Mamta Media for feedback, corrections, advertising or guest posts.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<title>Contact Mamta Media | Feedback, Guest Posts and Advertising</title>
+<meta name="description" content="Contact Mamta Media for feedback, corrections, advertising or guest post proposals.">
+<meta property="og:site_name" content="Mamta Media"><meta property="og:type" content="website"><meta property="og:title" content="Contact Mamta Media | Feedback, Guest Posts and Advertising"><meta property="og:description" content="Contact Mamta Media for feedback, corrections, advertising or guest post proposals.">
+<link rel="icon" href="/images/logo-icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/images/logo-icon.png"><meta name="theme-color" content="#1456e8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body data-page="contact">
 <div id="hdr"></div>
 <main>
 <div class="wrap inner">
-<h1>Get in <em>touch.</em></h1>
+<h1>Get in <em>touch</em></h1>
 <p class="lead">Have feedback, a story idea or a business enquiry? Fill in the form or email us at <a href="mailto:your-email@example.com"><b>your-email@example.com</b></a>.</p>
-<form class="form" name="contact" method="POST" action="thanks.html" data-netlify="true" netlify-honeypot="bot-field" style="margin-top:28px">
+<form class="form" name="contact" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field" style="margin-top:26px">
   <input type="hidden" name="form-name" value="contact">
   <p hidden><label>Don’t fill this: <input name="bot-field"></label></p>
   <label>Name<input name="name" required></label>
   <label>Email<input type="email" name="email" required></label>
   <label>Topic<select name="topic"><option>Feedback</option><option>Guest post</option><option>Advertising</option><option>Correction</option><option>Other</option></select></label>
   <label>Message<textarea name="message" rows="5" required></textarea></label>
-  <button class="btn" type="submit">Send message →</button>
+  <button class="btn" type="submit">Send message</button>
 </form></div>
 </main>
 <div id="ftr"></div>
-<script src="js/posts.js"></script>
-<script src="js/main.js"></script>
+<script src="/js/posts.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>
