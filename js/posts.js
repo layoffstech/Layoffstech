@@ -1,3 +1,6 @@
+// ============ SITE SETTINGS (edit these two lines) ============
+const SITE_URL = "https://mamtamedia.com";            // your final website address, no "/" at the end
+const WEB3FORMS_KEY = "325e00d4-5c95-4baf-9ca1-9f47199dbe88";
 // ============ CATEGORIES ============
 // Want a new category? Add one line here and use its "slug" as `cat` in your posts.
 // (Add a matching picture at images/cat-<slug>.svg or .png, or it will show without art.)

@@ -7,8 +7,8 @@ const sorted = POSTS.map((p, i) => ({ p, i }))
   .sort((a, b) => new Date(b.p.date) - new Date(a.p.date) || a.i - b.i).map((x) => x.p);
 const readTime = (p) => Math.max(1, Math.round(p.body.join(" ").split(/\s+/).length / 200));
 const page = document.body.dataset.page;
-const postUrl = (p) => `/posts/${p.slug}.html`;
-const catUrl = (c) => `/category/${c.slug}.html`;
+const postUrl = (p) => `/posts/${p.slug}`;
+const catUrl = (c) => `/category/${c.slug}`;
 const img = (p) => p.image || `/images/cat-${p.cat}.svg`;
 const repeatTo = (arr, min) => { let out = []; do { out = out.concat(arr); } while (out.length < min); return out; };
 
@@ -33,18 +33,18 @@ const mini = (p) => `
 $("#hdr").innerHTML = `
 <header class="site">
   <div class="wrap bar">
-    <a class="logo" href="/index.html" aria-label="Mamta Media home"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
+    <a class="logo" href="/" aria-label="Mamta Media home"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
     <nav id="nav" aria-label="Main">
-      <a href="/index.html#latest">Latest</a>
-      <a href="/index.html#trending">Trending</a>
-      <a href="/index.html#categories">Categories</a>
-      <a href="/index.html#stories">All Stories</a>
-      <a href="/about.html">About</a>
-      <a href="/contact.html">Contact</a>
+      <a href="/#latest">Latest</a>
+      <a href="/#trending">Trending</a>
+      <a href="/#categories">Categories</a>
+      <a href="/#stories">All Stories</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
     </nav>
     <div class="actions">
       <button id="themeBtn" class="icon" type="button" aria-label="Toggle dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
-      <a class="btn small" href="/index.html#subscribe">Subscribe</a>
+      <a class="btn small" href="/#subscribe">Subscribe</a>
       <button id="menuBtn" class="icon menu" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     </div>
   </div>
@@ -60,16 +60,16 @@ $("#ftr").innerHTML = `
   <div class="f-marquee" aria-label="Categories"><div class="track">${mq}${mq}${mq}${mq}</div></div>
   <div class="wrap f-top">
     <div><h2>Never miss a <em>story.</em></h2><p>Get the best of Mamta Media in your inbox. No spam, ever.</p></div>
-    <a class="btn light" href="/index.html#subscribe">Subscribe now</a>
+    <a class="btn light" href="/#subscribe">Subscribe now</a>
   </div>
   <div class="wrap grid">
-    <div><a class="logo" href="/index.html"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
+    <div><a class="logo" href="/"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
       <p>Fresh stories on technology, business, entertainment, lifestyle, health, sports, education and travel.</p></div>
     <div><h4>Categories</h4><ul>${CATEGORIES.map((c) => `<li><a href="${catUrl(c)}">${esc(c.name)}</a></li>`).join("")}</ul></div>
     <div><h4>Explore</h4><ul>
-      <li><a href="/index.html#latest">Latest posts</a></li><li><a href="/index.html#trending">Trending</a></li>
-      <li><a href="/index.html#stories">All stories</a></li><li><a href="/about.html">About us</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
-    <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy Policy</a></li><li><a href="/disclaimer.html">Disclaimer</a></li></ul></div>
+      <li><a href="/#latest">Latest posts</a></li><li><a href="/#trending">Trending</a></li>
+      <li><a href="/#stories">All stories</a></li><li><a href="/about">About us</a></li><li><a href="/contact">Contact</a></li></ul></div>
+    <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/disclaimer">Disclaimer</a></li></ul></div>
   </div>
   <div class="wrap f-word" id="fWord" aria-hidden="true">${wordHTML("Mamta", 0)}${wordHTML("Media", 7)}</div>
   <div class="wrap legal"><span>© 2026 Mamta Media. All rights reserved.</span><a class="totop" href="#hdr">Back to top ↑</a></div>
@@ -96,6 +96,16 @@ document.addEventListener("click", (e) => {
   }
 });
 document.querySelectorAll(".catbar a").forEach((a) => { if (a.pathname === location.pathname) a.setAttribute("aria-current", "page"); });
+
+// ---------- Forms (Web3Forms): fill in the key and the thank-you page automatically ----------
+document.querySelectorAll('input[name="access_key"]').forEach((i) => (i.value = WEB3FORMS_KEY));
+document.querySelectorAll('input[name="redirect"]').forEach((i) => (i.value = location.origin + "/thanks"));
+document.addEventListener("submit", (e) => {
+  if (e.target.matches('form[action*="web3forms"]') && WEB3FORMS_KEY.startsWith("PASTE_")) {
+    e.preventDefault();
+    alert("Form is not connected yet. Add your Web3Forms access key in js/posts.js (WEB3FORMS_KEY).");
+  }
+});
 
 // ---------- Structured data (helps search engines) ----------
 const addLD = (obj) => { const s = document.createElement("script"); s.type = "application/ld+json"; s.text = JSON.stringify(obj); document.head.appendChild(s); };
@@ -155,10 +165,10 @@ if (page === "category") {
     const rows = sorted.filter((p) => p.cat === c.slug);
     box.innerHTML = `
       <div class="catband"><div class="wrap">
-        <p class="crumb"><a href="/index.html">Home</a> / ${esc(c.name)}</p>
+        <p class="crumb"><a href="/">Home</a> / ${esc(c.name)}</p>
         <h1>${esc(c.name)}</h1><p class="lead">${esc(c.desc)}</p>
         <p class="count">${rows.length} ${rows.length === 1 ? "story" : "stories"}</p></div></div>
-      <div class="wrap inner"><div class="grid3">${rows.length ? rows.map((p) => card(p)).join("") : `<p class="empty">No stories in this category yet. <a href="/index.html#latest">See the latest posts</a>.</p>`}</div></div>`;
+      <div class="wrap inner"><div class="grid3">${rows.length ? rows.map((p) => card(p)).join("") : `<p class="empty">No stories in this category yet. <a href="/#latest">See the latest posts</a>.</p>`}</div></div>`;
   }
 }
 
@@ -174,7 +184,7 @@ if (page === "post") {
     $("#article").innerHTML = `
       ${cover(p, "hero")}
       <div class="wrap inner post">
-        <p class="crumb"><a href="/index.html">Home</a> / <a href="${catUrl(c)}">${esc(c.name)}</a></p>
+        <p class="crumb"><a href="/">Home</a> / <a href="${catUrl(c)}">${esc(c.name)}</a></p>
         <h1>${esc(p.title)}</h1>
         <p class="byline">By <b>${esc(p.author || "Mamta Media Team")}</b> · ${fmtDate(p.date)} · ${readTime(p)} min read</p>
         <p class="lead">${esc(p.summary)}</p>

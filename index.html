@@ -56,7 +56,7 @@
 
 <section id="topics" class="soft"><div class="wrap">
   <div class="sec-head"><h2>What you can read on <em>Mamta Media</em></h2><p>A quick guide to every section of the site.</p></div>
-  <div class="topics"><div class="topic"><h3><a href="/category/technology.html">Technology</a></h3><p>Technology news, AI tools, gadgets, apps and digital trends explained in plain language, so you can choose the right tools and stay ahead.</p></div><div class="topic"><h3><a href="/category/business.html">Business</a></h3><p>Business news, startup ideas, personal finance and productivity tips for founders, freelancers and professionals who want to grow.</p></div><div class="topic"><h3><a href="/category/entertainment.html">Entertainment</a></h3><p>Movie and series recommendations, music, streaming picks and pop culture stories for your next watch.</p></div><div class="topic"><h3><a href="/category/lifestyle.html">Lifestyle</a></h3><p>Practical lifestyle ideas on habits, home, fashion and personal growth that fit into a busy everyday routine.</p></div><div class="topic"><h3><a href="/category/health.html">Health</a></h3><p>Easy-to-follow health, fitness, nutrition and mental wellbeing guides based on sensible, everyday habits.</p></div><div class="topic"><h3><a href="/category/sports.html">Sports</a></h3><p>Sports news, match stories, beginner guides and athlete profiles for fans of every level.</p></div><div class="topic"><h3><a href="/category/education.html">Education</a></h3><p>Study techniques, career advice, exam tips and skill-building guides for students and lifelong learners.</p></div><div class="topic"><h3><a href="/category/travel.html">Travel</a></h3><p>Destination guides, budget travel tips and weekend getaway ideas to help you plan better trips.</p></div></div>
+  <div class="topics"><div class="topic"><h3><a href="/category/technology">Technology</a></h3><p>Technology news, AI tools, gadgets, apps and digital trends explained in plain language, so you can choose the right tools and stay ahead.</p></div><div class="topic"><h3><a href="/category/business">Business</a></h3><p>Business news, startup ideas, personal finance and productivity tips for founders, freelancers and professionals who want to grow.</p></div><div class="topic"><h3><a href="/category/entertainment">Entertainment</a></h3><p>Movie and series recommendations, music, streaming picks and pop culture stories for your next watch.</p></div><div class="topic"><h3><a href="/category/lifestyle">Lifestyle</a></h3><p>Practical lifestyle ideas on habits, home, fashion and personal growth that fit into a busy everyday routine.</p></div><div class="topic"><h3><a href="/category/health">Health</a></h3><p>Easy-to-follow health, fitness, nutrition and mental wellbeing guides based on sensible, everyday habits.</p></div><div class="topic"><h3><a href="/category/sports">Sports</a></h3><p>Sports news, match stories, beginner guides and athlete profiles for fans of every level.</p></div><div class="topic"><h3><a href="/category/education">Education</a></h3><p>Study techniques, career advice, exam tips and skill-building guides for students and lifelong learners.</p></div><div class="topic"><h3><a href="/category/travel">Travel</a></h3><p>Destination guides, budget travel tips and weekend getaway ideas to help you plan better trips.</p></div></div>
 </div></section>
 
 <section id="faq"><div class="wrap prose">
@@ -72,9 +72,12 @@
   <div class="sub-box">
     <h2>Get the best stories <em>in your inbox</em></h2>
     <p>One friendly email with our latest posts. Unsubscribe anytime.</p>
-    <form name="subscribe" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="subscribe">
-      <p hidden><label>Don’t fill this: <input name="bot-field"></label></p>
+    <form action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="">
+      <input type="hidden" name="subject" value="New subscriber - Mamta Media">
+      <input type="hidden" name="from_name" value="Mamta Media">
+      <input type="hidden" name="redirect" value="">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
       <input type="email" name="email" placeholder="Your email address" aria-label="Email address" required>
       <button class="btn light" type="submit">Subscribe</button>
     </form>

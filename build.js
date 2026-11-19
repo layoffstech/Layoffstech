@@ -5,9 +5,9 @@ const fs = require("fs");
 const path = require("path");
 
 const src = fs.readFileSync(path.join(__dirname, "js", "posts.js"), "utf8");
-const { CATEGORIES, POSTS } = new Function(src + "; return { CATEGORIES, POSTS };")();
+const { CATEGORIES, POSTS, SITE_URL } = new Function(src + "; return { CATEGORIES, POSTS, SITE_URL };")();
 
-const SITE = (process.env.URL || process.env.DEPLOY_PRIME_URL || "https://YOUR-DOMAIN.com").replace(/\/$/, "");
+const SITE = (SITE_URL || process.env.SITE_URL || "https://YOUR-DOMAIN.com").replace(/\/$/, "");
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const sorted = POSTS.map((p, i) => ({ p, i }))
   .sort((a, b) => new Date(b.p.date) - new Date(a.p.date) || a.i - b.i).map((x) => x.p);
@@ -52,7 +52,7 @@ for (const d of ["posts", "category"]) {
 // ---- Post pages ----
 for (const p of POSTS) {
   const c = catOf(p.cat);
-  const url = `${SITE}/posts/${p.slug}.html`;
+  const url = `${SITE}/posts/${p.slug}`;
   const ld = {
     "@context": "https://schema.org", "@type": "Article", headline: p.title, description: p.summary,
     image: [ogImage(p)], datePublished: p.date, dateModified: p.date, mainEntityOfPage: url,
@@ -69,8 +69,8 @@ for (const p of POSTS) {
 
 // ---- Category pages ----
 for (const c of CATEGORIES) {
-  const url = `${SITE}/category/${c.slug}.html`;
-  const list = sorted.filter((p) => p.cat === c.slug).map((p) => `<li><a href="/posts/${p.slug}.html">${esc(p.title)}</a></li>`).join("");
+  const url = `${SITE}/category/${c.slug}`;
+  const list = sorted.filter((p) => p.cat === c.slug).map((p) => `<li><a href="/posts/${p.slug}">${esc(p.title)}</a></li>`).join("");
   const body = `<div id="catContent"><div class="wrap inner"><h1>${esc(c.name)}</h1><p class="lead">${esc(c.desc)}</p><ul>${list}</ul></div></div>`;
   fs.writeFileSync(path.join(__dirname, "category", c.slug + ".html"),
     shell({ title: `${c.name} News and Stories | Mamta Media`, desc: `${c.desc} Read the latest ${c.name.toLowerCase()} stories on Mamta Media.`, canonical: url, attrs: `data-page="category" data-cat="${c.slug}"`, body }));
@@ -79,13 +79,13 @@ for (const c of CATEGORIES) {
 // ---- sitemap.xml + robots.txt ----
 const urls = [
   ["/", new Date().toISOString().slice(0, 10)],
-  ...["about", "contact", "privacy", "disclaimer"].map((n) => [`/${n}.html`, null]),
-  ...CATEGORIES.map((c) => [`/category/${c.slug}.html`, null]),
-  ...POSTS.map((p) => [`/posts/${p.slug}.html`, p.date.slice(0, 10)])
+  ...["about", "contact", "privacy", "disclaimer"].map((n) => [`/${n}`, null]),
+  ...CATEGORIES.map((c) => [`/category/${c.slug}`, null]),
+  ...POSTS.map((p) => [`/posts/${p.slug}`, p.date.slice(0, 10)])
 ];
 fs.writeFileSync(path.join(__dirname, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map(([u, d]) => `  <url><loc>${SITE}${u}</loc>${d ? `<lastmod>${d}</lastmod>` : ""}</url>`).join("\n") + `\n</urlset>\n`);
-fs.writeFileSync(path.join(__dirname, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /thanks.html\n\nSitemap: ${SITE}/sitemap.xml\n`);
+fs.writeFileSync(path.join(__dirname, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /thanks\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 console.log(`Built ${POSTS.length} posts, ${CATEGORIES.length} categories. Site URL: ${SITE}`);
