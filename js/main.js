@@ -29,29 +29,90 @@ const mini = (p) => `
   <span>${tag(p)}<h4>${esc(p.title)}</h4>${meta(p)}</span>
 </a>`;
 
-// ---------- Header + Footer ----------
+// ---------- Header ----------
+// Floating glass header: shrinks on scroll, hides when you scroll down, comes back when you scroll up.
+const NAV = [["Latest", "/#latest", "latest"], ["Trending", "/#trending", "trending"], ["All Stories", "/#stories", "stories"], ["About", "/about", "about"], ["Contact", "/contact", "contact"]];
+const navLink = ([t, h, s]) => `<a href="${h}" data-s="${s}"${page === s ? ' class="act" aria-current="page"' : ""}>${t}</a>`;
+const megaItem = (c) => `<a class="mh-cat" href="${catUrl(c)}"><img src="/images/cat-${c.slug}.svg" alt="" width="64" height="40" loading="lazy"><span><b>${esc(c.name)}</b><small>${esc(c.desc)}</small></span></a>`;
 $("#hdr").innerHTML = `
-<header class="site">
-  <div class="wrap bar">
-    <a class="logo" href="/" aria-label="Mamta Media home"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
-    <nav id="nav" aria-label="Main">
-      <a href="/#latest">Latest</a>
-      <a href="/#trending">Trending</a>
-      <a href="/#categories">Categories</a>
-      <a href="/#stories">All Stories</a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
+<header class="mh" id="mh">
+  <i class="mh-pg" id="mhPg"></i>
+  <div class="mh-in">
+    <a class="logo" href="/" aria-label="Mamta Media home"><img src="/images/logo-icon.svg" width="38" height="38" alt=""><span>Mamta <b>Media</b></span></a>
+    <nav class="mh-nav" id="mhNav" aria-label="Main">
+      <i class="mh-ind" id="mhInd"></i>
+      ${navLink(NAV[0])}${navLink(NAV[1])}
+      <div class="mh-dd" id="mhDd">
+        <button class="mh-topics" id="mhTopics" type="button" aria-expanded="false" aria-controls="mhMega">Topics <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="mh-mega" id="mhMega">
+          <div class="mh-grid">${CATEGORIES.map(megaItem).join("")}</div>
+          <a class="mh-all" href="/#categories">Browse all topics <span>&rarr;</span></a>
+        </div>
+      </div>
+      ${NAV.slice(2).map(navLink).join("")}
     </nav>
-    <div class="actions">
-      <button id="themeBtn" class="icon" type="button" aria-label="Toggle dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
-      <a class="btn small" href="/#subscribe">Subscribe</a>
-      <button id="menuBtn" class="icon menu" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <div class="mh-rt">
+      <button id="themeBtn" class="mh-ic" type="button" aria-label="Toggle dark mode"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="mh-cta" href="/#subscribe">Subscribe <span class="ar">&rarr;</span></a>
+      <button class="mh-bg" id="mhBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mhMenu"><span></span></button>
     </div>
   </div>
-  <div class="catbar"><div class="wrap">
-    ${CATEGORIES.map((c) => `<a href="${catUrl(c)}">${esc(c.name)}</a>`).join("")}
-  </div></div>
+  <div class="mh-mn" id="mhMenu">
+    ${NAV.map(([t, h]) => `<a href="${h}">${t}</a>`).join("")}
+    <p class="mh-mlabel">Topics</p>
+    <div class="mh-chips">${CATEGORIES.map((c) => `<a href="${catUrl(c)}">${esc(c.name)}</a>`).join("")}</div>
+    <a class="mh-cta" href="/#subscribe">Subscribe free <span class="ar">&rarr;</span></a>
+  </div>
 </header>`;
+
+(() => {
+  const h = $("#mh"), btn = $("#mhBtn"), nav = $("#mhNav"), ind = $("#mhInd"), pg = $("#mhPg"), dd = $("#mhDd"), tp = $("#mhTopics");
+  // Links to homepage sections scroll smoothly when you are already on the homepage
+  if (page === "home") h.querySelectorAll('a[href^="/#"]').forEach((a) => a.setAttribute("href", a.getAttribute("href").slice(1)));
+  // Shrink on scroll, hide on scroll down, show on scroll up, and fill the progress line
+  let lastY = scrollY;
+  const onScroll = () => {
+    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    h.classList.toggle("solid", y > 20 || h.classList.contains("open"));
+    if (!h.classList.contains("open") && !dd.classList.contains("open")) {
+      if (y > lastY + 6 && y > 320) h.classList.add("hide");
+      else if (y < lastY - 6 || y < 320) h.classList.remove("hide");
+    }
+    if (Math.abs(y - lastY) > 6) lastY = y;
+    pg.style.width = (max > 0 ? (y / max) * 100 : 0) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  // Mobile menu
+  const setOpen = (o) => { h.classList.toggle("open", o); btn.setAttribute("aria-expanded", o); btn.setAttribute("aria-label", o ? "Close menu" : "Open menu"); onScroll(); };
+  btn.addEventListener("click", () => setOpen(!h.classList.contains("open")));
+  h.querySelectorAll(".mh-mn a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  // Topics dropdown: opens on hover (desktop) or click/tap
+  const setDd = (o) => { dd.classList.toggle("open", o); tp.setAttribute("aria-expanded", o); };
+  tp.addEventListener("click", () => setDd(!dd.classList.contains("open")));
+  dd.addEventListener("mouseenter", () => setDd(true));
+  dd.addEventListener("mouseleave", () => setDd(false));
+  document.addEventListener("click", (e) => { if (!dd.contains(e.target)) setDd(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { setDd(false); setOpen(false); } });
+  // Sliding pill behind the menu links
+  const moveTo = (a) => { if (!a) { ind.style.opacity = 0; return; } ind.style.left = a.offsetLeft + "px"; ind.style.width = a.offsetWidth + "px"; ind.style.opacity = 1; };
+  const toActive = () => moveTo(nav.querySelector("a.act"));
+  [...nav.querySelectorAll(":scope > a"), tp].forEach((a) => { a.addEventListener("mouseenter", () => moveTo(a)); a.addEventListener("focus", () => moveTo(a)); });
+  nav.addEventListener("mouseleave", toActive);
+  addEventListener("resize", toActive);
+  addEventListener("load", toActive); toActive();
+  // On the homepage, highlight the menu link of the section you are reading
+  if (page === "home") {
+    const ids = ["latest", "trending", "stories"];
+    const spy = () => {
+      const mid = innerHeight * 0.45; let cur = null;
+      ids.forEach((id) => { const el = document.getElementById(id); if (!el || !el.offsetHeight) return;
+        const r = el.getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) cur = id; });
+      nav.querySelectorAll("a[data-s]").forEach((a) => a.classList.toggle("act", a.dataset.s === cur));
+      if (!nav.matches(":hover")) toActive();
+    };
+    addEventListener("scroll", spy, { passive: true }); addEventListener("load", spy); setTimeout(spy, 300);
+  }
+})();
 
 // ---------- Footer ----------
 // SOCIAL LINKS: paste your profile links here. Empty ones stay hidden.
@@ -141,14 +202,12 @@ document.addEventListener("click", (e) => {
     root.dataset.theme = dark ? "light" : "dark";
     try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
   }
-  const m = e.target.closest("#menuBtn");
-  if (m) { const open = $("#nav").classList.toggle("open"); m.setAttribute("aria-expanded", open); }
   if (e.target.closest("#copyBtn")) {
     const b = $("#copyBtn");
     try { navigator.clipboard.writeText(location.href); b.textContent = "Copied!"; } catch (err) { b.textContent = "Copy failed"; }
   }
 });
-document.querySelectorAll(".catbar a").forEach((a) => { if (a.pathname === location.pathname) a.setAttribute("aria-current", "page"); });
+document.querySelectorAll(".mh-cat, .mh-chips a").forEach((a) => { if (a.pathname === location.pathname || a.pathname + ".html" === location.pathname) a.setAttribute("aria-current", "page"); });
 
 // ---------- Forms (Web3Forms): fill in the key and the thank-you page automatically ----------
 document.querySelectorAll('input[name="access_key"]').forEach((i) => (i.value = WEB3FORMS_KEY));
