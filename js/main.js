@@ -10,7 +10,7 @@ const page = document.body.dataset.page;
 const postUrl = (p) => `/posts/${p.slug}`;
 const catUrl = (c) => `/category/${c.slug}`;
 const img = (p) => p.image || `/images/cat-${p.cat}.svg`;
-const repeatTo = (arr, min) => { let out = []; do { out = out.concat(arr); } while (out.length < min); return out; };
+const repeatTo = (arr, min) => { if (!arr.length) return []; let out = []; do { out = out.concat(arr); } while (out.length < min); return out; };
 
 // ---------- Theme ----------
 const root = document.documentElement;
@@ -72,7 +72,7 @@ $("#ftr").innerHTML = `
     <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/disclaimer">Disclaimer</a></li></ul></div>
   </div>
   <div class="wrap f-word" id="fWord" aria-hidden="true">${wordHTML("Mamta", 0)}${wordHTML("Media", 7)}</div>
-  <div class="wrap legal"><span>© 2026 Mamta Media. All rights reserved.</span><a class="totop" href="#hdr">Back to top ↑</a></div>
+  <div class="wrap legal"><span>© ${new Date().getFullYear()} Mamta Media. All rights reserved.</span><a class="totop" href="#hdr">Back to top ↑</a></div>
 </footer>`;
 
 // Footer wordmark: letters rise from below, one after another, every time it scrolls into view
@@ -131,6 +131,7 @@ if (page === "home") {
 
   const rail = repeatTo(sorted.map((p) => card(p, "sm")), 6).join("");
   $("#rail").innerHTML = `<div class="track" style="animation-duration:${Math.max(50, sorted.length * 10)}s">${rail}${rail}</div>`;
+  if (!sorted.length) { $("#ticker").style.display = "none"; const rs = $("#rail").closest("section"); if (rs) rs.style.display = "none"; }
 
   $("#cat-grid").innerHTML = CATEGORIES.map((c) => {
     const n = POSTS.filter((p) => p.cat === c.slug).length;
@@ -179,10 +180,11 @@ if (page === "post") {
     const c = catOf(p.cat);
     const rel = sorted.filter((x) => x.cat === p.cat && x.slug !== p.slug).slice(0, 3);
     const more = rel.length ? rel : sorted.filter((x) => x.slug !== p.slug).slice(0, 3);
-    const body = p.body.map((t) => t.startsWith("## ") ? `<h2>${esc(t.slice(3))}</h2>` : `<p>${esc(t)}</p>`).join("");
+    const body = typeof renderBody === "function" ? renderBody(p.body)
+      : p.body.map((t) => t.startsWith("## ") ? `<h2>${esc(t.slice(3))}</h2>` : `<p>${esc(t)}</p>`).join("");
     const share = encodeURIComponent(p.title + " " + location.href);
     $("#article").innerHTML = `
-      ${cover(p, "hero")}
+      ${cover(p, p.image ? "hero own" : "hero")}
       <div class="wrap inner post">
         <p class="crumb"><a href="/">Home</a> / <a href="${catUrl(c)}">${esc(c.name)}</a></p>
         <h1>${esc(p.title)}</h1>
