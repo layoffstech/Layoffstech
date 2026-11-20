@@ -53,33 +53,86 @@ $("#hdr").innerHTML = `
   </div></div>
 </header>`;
 
+// ---------- Footer ----------
+// SOCIAL LINKS: paste your profile links here. Empty ones stay hidden.
+const SOCIAL = {
+  instagram: "",   // e.g. "https://instagram.com/mamtamedia"
+  facebook: "",    // e.g. "https://facebook.com/mamtamedia"
+  youtube: "",     // e.g. "https://youtube.com/@mamtamedia"
+  x: ""            // e.g. "https://x.com/mamtamedia"
+};
+const CONTACT_EMAIL = "mamtamedia@gmail.com";
+
+const ICONS = {
+  instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
+  facebook: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V6.8c0-.8.5-1 .9-1H17V2.1L14.1 2C10.9 2 10.2 4.4 10.2 6v2.5H8V12h2.2v10H14V12h2.8l.4-3.5H14z"/></svg>',
+  youtube: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.75 15.02V8.98L15.5 12z"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L1.9 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg>'
+};
+const socialHTML = Object.keys(SOCIAL).filter((k) => SOCIAL[k]).map((k) =>
+  `<a href="${esc(SOCIAL[k])}" target="_blank" rel="noopener" aria-label="${k}">${ICONS[k]}</a>`).join("");
+
 const wordHTML = (word, offset) => `<span class="w">${[...word].map((ch, i) => `<span class="l" style="--i:${offset + i}">${ch}</span>`).join("")}</span>`;
 const mq = CATEGORIES.map((c) => `<a href="${catUrl(c)}">${esc(c.name)}</a>`).join("");
+const PILL_STYLES = [["y", "4%", "6%", "-6deg"], ["wh", "50%", "0", "5deg"], ["k", "22%", "38%", "4deg"], ["gr", "60%", "46%", "-5deg"], ["wh", "2%", "74%", "3deg"], ["y", "46%", "80%", "-4deg"]];
+const pills = CATEGORIES.slice(0, 6).map((c, i) => { const [cl, l, t, r] = PILL_STYLES[i];
+  return `<a class="${cl}" href="${catUrl(c)}" style="left:${l};top:${t};--r:${r};animation-delay:${-i * 0.9}s">${esc(c.name)}</a>`; }).join("");
+
 $("#ftr").innerHTML = `
-<footer class="site">
+<footer class="site mf" id="mf">
+  <div class="mf-dots" aria-hidden="true"></div><div class="mf-spot" aria-hidden="true"></div>
   <div class="f-marquee" aria-label="Categories"><div class="track">${mq}${mq}${mq}${mq}</div></div>
-  <div class="wrap f-top">
-    <div><h2>Never miss a <em>story.</em></h2><p>Get the best of Mamta Media in your inbox. No spam, ever.</p></div>
-    <a class="btn light" href="/#subscribe">Subscribe now</a>
-  </div>
-  <div class="wrap grid">
-    <div><a class="logo" href="/"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
-      <p>Fresh stories on technology, business, entertainment, lifestyle, health, sports, education and travel.</p></div>
-    <div><h4>Categories</h4><ul>${CATEGORIES.map((c) => `<li><a href="${catUrl(c)}">${esc(c.name)}</a></li>`).join("")}</ul></div>
-    <div><h4>Explore</h4><ul>
-      <li><a href="/#latest">Latest posts</a></li><li><a href="/#trending">Trending</a></li>
-      <li><a href="/#stories">All stories</a></li><li><a href="/about">About us</a></li><li><a href="/contact">Contact</a></li></ul></div>
-    <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/disclaimer">Disclaimer</a></li></ul></div>
+  <div class="wrap mf-in">
+    <div class="mf-cta">
+      <div>
+        <span class="mf-ey">Free newsletter</span>
+        <h2>Stories worth your time, <em>straight to your inbox.</em></h2>
+        <p>Get our best articles on technology, money, health, travel and more. One friendly email, no spam, ever.</p>
+        <div class="mf-bt"><a class="mf-b1" href="/#subscribe">Subscribe free &rarr;</a><a class="mf-b2" href="/contact">Write for us</a></div>
+      </div>
+      <div class="mf-orb" aria-hidden="true">${pills}</div>
+    </div>
+
+    <div class="mf-cols">
+      <div>
+        <a class="logo" href="/"><img src="/images/logo-icon.svg" width="40" height="40" alt=""><span>Mamta <b>Media</b></span></a>
+        <p class="mf-tag">Genuine, easy-to-read stories on technology, business, entertainment, lifestyle, health, sports, education and travel.</p>
+        ${socialHTML ? `<div class="mf-soc">${socialHTML}</div>` : ""}
+      </div>
+      <div><h4>Categories</h4><ul>${CATEGORIES.map((c) => `<li><a href="${catUrl(c)}">${esc(c.name)}</a></li>`).join("")}</ul></div>
+      <div><h4>Explore</h4><ul>
+        <li><a href="/#latest">Latest posts</a></li><li><a href="/#trending">Trending</a></li><li><a href="/#stories">All stories</a></li>
+        <li><a href="/about">About us</a></li><li><a href="/privacy">Privacy Policy</a></li><li><a href="/disclaimer">Disclaimer</a></li></ul></div>
+      <div class="mf-ct">
+        <h4>Get in touch</h4>
+        <a href="mailto:${CONTACT_EMAIL}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>${CONTACT_EMAIL}</a>
+        <a href="/contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Send us a message</a>
+        <a href="/contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Suggest a story idea</a>
+        <span class="mf-open"><i></i>Publishing across 8 topics</span>
+      </div>
+    </div>
   </div>
   <div class="wrap f-word" id="fWord" aria-hidden="true">${wordHTML("Mamta", 0)}${wordHTML("Media", 7)}</div>
-  <div class="wrap legal"><span>© ${new Date().getFullYear()} Mamta Media. All rights reserved.</span><a class="totop" href="#hdr">Back to top ↑</a></div>
-</footer>`;
+  <div class="mf-bar"><div class="wrap"><span>&copy; ${new Date().getFullYear()} Mamta Media. All rights reserved.</span><span>Made with <span class="mf-hrt">&hearts;</span> in India</span></div></div>
+</footer>
+<button class="mf-top" id="mfTop" type="button" aria-label="Back to top"><svg class="r" viewBox="0 0 50 50"><circle class="t" cx="25" cy="25" r="22"/><circle class="p" id="mfProg" cx="25" cy="25" r="22"/></svg><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>`;
 
 // Footer wordmark: letters rise from below, one after another, every time it scrolls into view
 const fWord = $("#fWord");
 if (fWord) {
   if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) fWord.classList.add("in");
   else new IntersectionObserver((entries) => entries.forEach((en) => fWord.classList.toggle("in", en.isIntersecting)), { threshold: 0.45 }).observe(fWord);
+}
+// Footer spotlight follows the mouse
+const mf = $("#mf");
+if (mf) mf.addEventListener("mousemove", (e) => { const r = mf.getBoundingClientRect(); mf.style.setProperty("--mx", e.clientX - r.left + "px"); mf.style.setProperty("--my", e.clientY - r.top + "px"); });
+// Back-to-top button with a ring that fills as you scroll
+const mfTop = $("#mfTop"), mfProg = $("#mfProg");
+if (mfTop) {
+  const onScroll = () => { const h = document.documentElement.scrollHeight - innerHeight, p = h > 0 ? scrollY / h : 0;
+    mfProg.style.strokeDashoffset = 138 - 138 * p; mfTop.classList.toggle("on", scrollY > innerHeight * 0.6); };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  mfTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
 }
 
 document.addEventListener("click", (e) => {
